@@ -18,9 +18,12 @@ class Deck(object):
     def __init__(self):
         print 'Deck has been created!'
 
+    def deck_total(self):
+        print "There are %d cards left in this deck." %len(self.stack)
+
     def random_card(self):
         card = random.choice(self.stack.keys())
         print card
 
 x = Deck()
-x.random_card()
+x.deck_total()
