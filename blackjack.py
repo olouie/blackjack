@@ -3,7 +3,6 @@ import random
 class Deck(object):
     
     # A deck needs 52 cards, consisting of 13 ranks of 4 different suits
-    # Perhaps these should be tuples
      
     suits = ('hearts', 'spades', 'diamonds', 'clubs')
     ranks = {'ace':11, 'two':2, 'three':3, 'four':4, 'five':5, 'six':6, 'seven':7, 'eight':8, 'nine':9, 
@@ -16,14 +15,25 @@ class Deck(object):
             stack[k + ' of ' + suit] = v
     
     def __init__(self):
-        print 'Deck has been created!'
+        print 'Deck has been created'
 
-    def deck_total(self): # Displays total cards remaining
+    def deck_total(self): 
+    # Displays total cards remaining
         print "There are %d cards left in this deck." %len(self.stack)
 
-    def random_card(self): # Chooses one card at random
+    def random_card(self): 
+    # Chooses one card at random
         card = random.choice(self.stack.keys())
-        print card
+        return card
 
-x = Deck()
-x.deck_total()
+class Player(Deck):
+
+    # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
+    # Splitting a hand will not be in this time
+    # If over 21, then automatic bust
+
+    def deal(self):
+        print 'Player drew a', self.random_card(), 'and a', self.random_card()
+
+x = Player()
+x.deal()
