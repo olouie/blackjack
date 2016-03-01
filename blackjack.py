@@ -26,6 +26,12 @@ class Deck(object):
         card = random.choice(self.stack.keys())
         return card
 
+    def del_card(self):
+        # Deletes card chosen at random
+        x = self.random_card()
+        return x
+        self.stack.pop(x)
+
 class Player(Deck):
 
     # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
@@ -33,7 +39,9 @@ class Player(Deck):
     # If over 21, then automatic bust
 
     def deal(self):
-        print 'Player drew a', self.random_card(), 'and a', self.random_card()
+        print 'Player drew a', self.del_card(), 'and a', self.del_card()
 
 x = Player()
+x.deck_total()
 x.deal()
+x.deck_total()
