@@ -1,4 +1,6 @@
 import random
+#import os
+#os.system('clear')
 
 class Deck(object):
     
@@ -39,6 +41,7 @@ class Player(Deck):
     # If over 21, then automatic bust
 
     def deal(self):
+        # Player is dealt 2 cards at random, and they are deleted from the deck
         print 'Player drew a', self.del_card(), 'and a', self.del_card()
 
 x = Player()
