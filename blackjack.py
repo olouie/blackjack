@@ -19,7 +19,7 @@ class Deck(object):
 
     def deck_total(self): 
     # Displays total cards remaining
-        print "There are %d cards left in this deck." %len(Deck.stack)
+        print "There are %d cards left in this deck" %len(Deck.stack)
 
     def random_card(self): 
     # Chooses one card at random
@@ -29,8 +29,8 @@ class Deck(object):
     def del_card(self):
         # Deletes card chosen at random
         x = self.random_card()
-        print x
         Deck.stack.pop(x)
+        return x
 
 class Player(Deck):
 
@@ -39,9 +39,9 @@ class Player(Deck):
     # If over 21, then automatic bust
 
     def deal(self):
-        print 'Player drew a', Deck.stack.del_card(), 'and a', Deck.stack.del_card()
+        print 'Player drew a', self.del_card(), 'and a', self.del_card()
 
-x = Deck()
+x = Player()
 x.deck_total()
-x.del_card()
+x.deal()
 x.deck_total()
