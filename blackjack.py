@@ -37,14 +37,28 @@ class Deck(object):
 class Player(Deck):
 
     # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
+    # Create class variable to hold the hand of the player
     # Splitting a hand will not be in this time
     # If over 21, then automatic bust
 
+    hand = []
+
+    def __init__(self):
+        self.deck = Deck()
+
+    def show_hand(self):
+        print Player.hand
+
+    def del_card(self):
+        # Player's del_card() adds the chosen cards to Player's hand
+        x = self.deck.del_card()
+        Player.hand.append(x)
+        return x
+        
     def deal(self):
         # Player is dealt 2 cards at random, and they are deleted from the deck
         print 'Player drew a', self.del_card(), 'and a', self.del_card()
 
 x = Player()
-x.deck_total()
 x.deal()
-x.deck_total()
+x.show_hand()
