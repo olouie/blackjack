@@ -39,7 +39,6 @@ class Player(Deck):
     # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
     # Create class variable to hold the hand of the player
     # Splitting a hand will not be in this time
-    # If over 21, then automatic bust
 
     hand = []
 
@@ -50,17 +49,16 @@ class Player(Deck):
         print Player.hand
 
     def draw(self):
-        # Player's del_card() adds the chosen cards to Player's hand
-        x = self.deck.del_card()
+        # Adds a randomly chosen card to Player's hand
+        drawn = self.deck.del_card()
         Player.hand.append(x)
-        print x
+        print drawn
+
+    def discard(self):
+        del Player.hand[int(raw_input("Which do you want to discard a card? ")) - 1]
         
-    #def draw(self):
-        # Player draws card at random, and it is are deleted from the deck
-        # Will be used in dealing cards, repeat twice.
-        # Might delete and use del_card() instead
-        #print self.del_card()
 
 x = Player()
 x.draw()
+x.discard()
 x.show_hand()
