@@ -49,16 +49,18 @@ class Player(Deck):
     def show_hand(self):
         print Player.hand
 
-    def del_card(self):
+    def draw(self):
         # Player's del_card() adds the chosen cards to Player's hand
         x = self.deck.del_card()
         Player.hand.append(x)
-        return x
+        print x
         
-    def deal(self):
-        # Player is dealt 2 cards at random, and they are deleted from the deck
-        print 'Player drew a', self.del_card(), 'and a', self.del_card()
+    #def draw(self):
+        # Player draws card at random, and it is are deleted from the deck
+        # Will be used in dealing cards, repeat twice.
+        # Might delete and use del_card() instead
+        #print self.del_card()
 
 x = Player()
-x.deal()
+x.draw()
 x.show_hand()
