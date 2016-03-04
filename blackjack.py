@@ -34,11 +34,29 @@ class Deck(object):
         Deck.stack.pop(x)
         return x
 
-class Player(Deck):
+class Bank(object):
+    # Pot will hold as Player's money and earnings
+    # Player should be able to bet to the total of their pot
+    # Bank will add or subtract from pot
+
+    pot = 100
+
+    def bank_total(self):
+        print Bank.pot
+
+    def add_pot(self):
+        pass
+
+    def subtract_pot(self):
+        pass
+
+    def bet(self):
+        pass
+
+class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
     # Create class variable to hold the hand of the player
-    # Splitting a hand will not be in this time
 
     hand = []
 
@@ -51,14 +69,20 @@ class Player(Deck):
     def draw(self):
         # Adds a randomly chosen card to Player's hand
         drawn = self.deck.del_card()
-        Player.hand.append(x)
-        print drawn
+        Player.hand.append(drawn)
+        return drawn
+
+    def deal(self):
+        # Deals 2 cards to Player
+        print self.draw(), 'and', self.draw()
 
     def discard(self):
+        # Fix this later, but it's here for now
         del Player.hand[int(raw_input("Which do you want to discard a card? ")) - 1]
-        
 
-x = Player()
-x.draw()
-x.discard()
-x.show_hand()
+class Game(Player):
+    pass
+
+x = Bank()
+x.bank_total()
+
