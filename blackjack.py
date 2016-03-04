@@ -44,28 +44,34 @@ class Bank(object):
     bank = 100
     pot = 0
 
+    def __init__(self):
+        print "Bank is running"
+
     def bank_total(self):
         print Bank.bank
 
+    def pot_total(self):
+        print Bank.pot
 
     def bet(self):
+        # Fix later so Player cannot bet more than bank
         wager = int(raw_input("How much would you like to bet? "))
         Bank.bank -= wager
         Bank.pot += wager
-
-    def pot_total(self):
-        print Bank.pot
 
 
 class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
     # Create class variable to hold the hand of the player
+    # Add class variable, Player's name?
 
     hand = []
+    name = ''
 
     def __init__(self):
         self.deck = Deck()
+        Player.name = raw_input("Player name: ")
 
     def show_hand(self):
         print Player.hand
@@ -81,15 +87,29 @@ class Player(Deck, Bank):
         print self.draw(), 'and', self.draw()
 
     def discard(self):
-        # Fix this later, but it's here for now
+        # Fix this later for error and exceptions
         del Player.hand[int(raw_input("Which do you want to discard a card? ")) - 1]
 
 
 class Game(Player):
-    pass
+    # Game engine that handles the logic and comparisons...maybe
+    # Set up for one player first, add Dealer later (contemplate a Dealer class?)
+    # If cards are 21, automatic win
+    # If cards are over 21, automatic bust
+    # No splitting of hands in this game
+    # Replay? When no more can be dealt from a deck
+    
+    def __init__(self):
+        self.player = Player()
+        self.bank = Bank()
+        print "Game engine running"
 
-x = Bank()
-x.bet()
-x.bank_total()
-x.pot_total()
+    def play(self):
+        pass
 
+    def replay(self):
+        pass
+
+
+x = Game()
+print Player.name
