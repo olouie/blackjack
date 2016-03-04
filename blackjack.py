@@ -77,6 +77,9 @@ class Player(Deck, Bank):
     def show_hand(self):
         print Player.hand
 
+    def discard_hand(self):
+        hand = []
+
     def draw(self):
         # Adds a randomly chosen card to Player's hand
         drawn = self.deck.del_card()
@@ -105,14 +108,25 @@ class Game(Player):
         while True:
             
             self.player.deal()
-            self.discard()
+            self.prompt()
 
             if not self.replay():
                 break
 
     def prompt(self):
         # Prompts the Player to Hit, Stand, or Surrender
-        pass
+        while True:
+            reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
+
+            if reply.startswith('h'):
+                print self.player.name, 'drew a', self.player.draw()
+            elif reply.startswith('st'):
+                print player.name, 'keeps hand'
+            elif reply.startswith('su'):
+                print player.name, 'discarded their hand'
+                self.player.discard_hand()
+            break
+
 
     def replay(self):
         return raw_input('Would you like to play again? ').lower().startswith('y')
