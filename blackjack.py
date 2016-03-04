@@ -34,24 +34,28 @@ class Deck(object):
         Deck.stack.pop(x)
         return x
 
-class Bank(object):
-    # Pot will hold as Player's money and earnings
-    # Player should be able to bet to the total of their pot
-    # Bank will add or subtract from pot
 
-    pot = 100
+class Bank(object):
+    # Bank will hold as Player's money and earnings
+    # Player should be able to bet to the total of their bank
+    # Pot will hold amounts betted by Player and Dealer
+    # Pot will be added or subtracted from bank
+
+    bank = 100
+    pot = 0
 
     def bank_total(self):
-        print Bank.pot
+        print Bank.bank
 
-    def add_pot(self):
-        pass
-
-    def subtract_pot(self):
-        pass
 
     def bet(self):
-        pass
+        wager = int(raw_input("How much would you like to bet? "))
+        Bank.bank -= wager
+        Bank.pot += wager
+
+    def pot_total(self):
+        print Bank.pot
+
 
 class Player(Deck, Bank):
 
@@ -80,9 +84,12 @@ class Player(Deck, Bank):
         # Fix this later, but it's here for now
         del Player.hand[int(raw_input("Which do you want to discard a card? ")) - 1]
 
+
 class Game(Player):
     pass
 
 x = Bank()
+x.bet()
 x.bank_total()
+x.pot_total()
 
