@@ -6,9 +6,9 @@ class Deck(object):
     
     # A deck needs 52 cards, consisting of 13 ranks of 4 different suits
      
-    suits = ('hearts', 'spades', 'diamonds', 'clubs')
-    ranks = {'ace':11, 'two':2, 'three':3, 'four':4, 'five':5, 'six':6, 'seven':7, 'eight':8, 'nine':9, 
-             'ten':10, 'jack':10, 'queen':10, 'king':10}  
+    suits = ('Hearts', 'Spades', 'Diamonds', 'Clubs')
+    ranks = {'Ace':11, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 
+            'Jack':10, 'Queen':10, 'King':10}  
     
     stack = {}
     
@@ -17,7 +17,7 @@ class Deck(object):
             stack[k + ' of ' + suit] = v
     
     def __init__(self):
-        print 'Deck has been created'
+        print 'Welcome to Blackjack'
 
     def deck_total(self): 
     # Displays total cards remaining
@@ -45,7 +45,8 @@ class Bank(object):
     pot = 0
 
     def __init__(self):
-        print "Bank is running"
+        #print "Bank is running"
+        pass
 
     def bank_total(self):
         print Bank.bank
@@ -84,11 +85,7 @@ class Player(Deck, Bank):
 
     def deal(self):
         # Deals 2 cards to Player
-        print self.draw(), 'and', self.draw()
-
-    def discard(self):
-        # Fix this later for error and exceptions
-        del Player.hand[int(raw_input("Which do you want to discard a card? ")) - 1]
+        print Player.name, 'was dealt a', self.draw(), 'and a', self.draw()
 
 
 class Game(Player):
@@ -102,12 +99,20 @@ class Game(Player):
     def __init__(self):
         self.player = Player()
         self.bank = Bank()
-        print "Game engine running"
+        #print "Game engine running"
 
     def play(self):
         while True:
+            
+            self.player.deal()
+            self.discard()
+
             if not self.replay():
                 break
+
+    def prompt(self):
+        # Prompts the Player to Hit, Stand, or Surrender
+        pass
 
     def replay(self):
         return raw_input('Would you like to play again? ').lower().startswith('y')
