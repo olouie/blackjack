@@ -64,14 +64,14 @@ class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
     # Create class variable to hold the hand of the player
-    # Add class variable, Player's name?
+    # Add class variable, Player's name
 
     hand = []
     name = ''
 
     def __init__(self):
         self.deck = Deck()
-        Player.name = raw_input("Player name: ")
+        #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
         print Player.hand
@@ -105,11 +105,14 @@ class Game(Player):
         print "Game engine running"
 
     def play(self):
-        pass
+        while True:
+            if not self.replay():
+                break
 
     def replay(self):
-        pass
+        return raw_input('Would you like to play again? ').lower().startswith('y')
 
 
 x = Game()
-print Player.name
+x.play()
+
