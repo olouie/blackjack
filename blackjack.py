@@ -47,10 +47,10 @@ class Bank(object):
         pass
 
     def bank_total(self):
-        print Player.name, 'has', '$'+str(Bank.bank), 'in their bank'
+        print Player.name, 'has', '$'+str(self.bank), 'in their bank'
 
     def pot_total(self):
-        print 'There is', '$'+str(Bank.pot), 'in the pot'
+        print 'There is', '$'+str(self.pot), 'in the pot'
 
     def bet(self):
         while True:
@@ -119,8 +119,10 @@ class Game(Player):
                     break
 
             if not self.replay():
-                print 'Thank you for player Blackjack'
+                print 'Thank you for playing Blackjack'
                 break
+            else:
+                self.reset()
 
     def prompt(self):
         # Prompts the Player to Hit, Stand, or Surrender
@@ -151,9 +153,12 @@ class Game(Player):
                 self.player.discard_hand()
                 break
 
-
     def replay(self):
         return raw_input('If you like to play again, type "yes" and press enter.\n').lower().startswith('y')
+
+    def reset(self):
+        self.player = Player()
+        self.bank = Bank()
 
 
 x = Game()
