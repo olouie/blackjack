@@ -106,9 +106,9 @@ class Game(Player):
 
     def play(self):
         while True:
-            
-            self.player.deal()
-            self.prompt()
+            while len(self.stack) >= 2 or bank != 0:
+                self.player.deal()
+                self.prompt()
 
             if not self.replay():
                 break
@@ -135,4 +135,4 @@ class Game(Player):
 
 
 x = Game()
-x.show_hand()
+x.play()
