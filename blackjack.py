@@ -41,7 +41,7 @@ class Bank(object):
     # Pot will hold amounts betted by Player and Dealer
     # Pot will be added or subtracted from bank
 
-    bank = 100
+    bank = 5
     pot = 0
 
     def __init__(self):
@@ -49,10 +49,10 @@ class Bank(object):
         pass
 
     def bank_total(self):
-        print Bank.bank
+        return Bank.bank
 
     def pot_total(self):
-        print Bank.pot
+        return Bank.pot
 
     def bet(self):
         # Fix later so Player cannot bet more than bank
@@ -72,13 +72,14 @@ class Player(Deck, Bank):
 
     def __init__(self):
         self.deck = Deck()
-        Player.name = raw_input("Player name: ")
+        #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
+        Player.hand.sort()
         print Player.name, 'has in hand:\n -', '\n - '.join([str(x) for x in Player.hand] )
 
     def discard_hand(self):
-        hand = []
+        Player.hand = []
 
     def draw(self):
         # Adds a randomly chosen card to Player's hand
@@ -106,9 +107,12 @@ class Game(Player):
 
     def play(self):
         while True:
-            while len(self.stack) >= 2 or bank != 0:
+            while self.bank.bank > 0:
                 self.player.deal()
                 self.prompt()
+
+                if len(self.stack) < 2:
+                    break
 
             if not self.replay():
                 break
@@ -122,9 +126,14 @@ class Game(Player):
                 print self.player.name, 'drew a', self.player.draw()
                 # Add the comparison here to see if player busts after a Hit
                 self.show_hand()
+                self.bank.bank -= 1
+                print self.bank.bank
+                if self.bank.bank == 0:
+                    break
             elif reply.startswith('st'):
                 print self.player.name, 'stands hand'
                 # This only matters when playing against Dealer
+                # Add comparisons and then discard hand
                 break
             elif reply.startswith('su'):
                 print self.player.name, 'surrendered their hand'
