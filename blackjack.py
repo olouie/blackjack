@@ -75,7 +75,7 @@ class Player(Deck, Bank):
         #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
-        print Player.hand
+        print Player.name, 'has a', ' and a '.join([str(x) for x in Player.hand] )
 
     def discard_hand(self):
         hand = []
@@ -120,12 +120,14 @@ class Game(Player):
 
             if reply.startswith('h'):
                 print self.player.name, 'drew a', self.player.draw()
+                self.show_hand()
             elif reply.startswith('st'):
-                print player.name, 'keeps hand'
+                print self.player.name, 'stands hand'
+                break
             elif reply.startswith('su'):
-                print player.name, 'discarded their hand'
+                print self.player.name, 'surrendered their hand'
                 self.player.discard_hand()
-            break
+                break
 
 
     def replay(self):
@@ -133,5 +135,4 @@ class Game(Player):
 
 
 x = Game()
-x.play()
-
+x.show_hand()
