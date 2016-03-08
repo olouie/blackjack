@@ -52,11 +52,16 @@ class Bank(object):
         print Player.name, 'has', '$'+str(Bank.bank), 'in their bank'
 
     def pot_total(self):
-        print 'There is', '$'+Bank.pot, 'in the pot'
+        print 'There is', '$'+str(Bank.pot), 'in the pot'
 
     def bet(self):
-        # Fix later so Player cannot bet more than bank
-        wager = int(raw_input("How much would you like to bet? "))
+        while True:
+            wager = int(raw_input("How much would you like to bet? "))
+            if wager > Bank.bank:
+                print 'You cannot bet more than what you have in your bank'
+            elif wager <= Bank.bank:
+                break
+
         Bank.bank -= wager
         Bank.pot += wager
 
@@ -152,4 +157,4 @@ class Game(Player):
 
 
 x = Bank()
-x.bank_total()
+x.bet()
