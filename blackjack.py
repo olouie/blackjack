@@ -36,10 +36,8 @@ class Deck(object):
 
 
 class Bank(object):
+
     # Bank will hold as Player's money and earnings
-    # Player should be able to bet to the total of their bank
-    # Pot will hold amounts betted by Player and Dealer
-    # Pot will be added or subtracted from bank
 
     bank = 5
     pot = 0
@@ -60,17 +58,16 @@ class Bank(object):
             if wager > Bank.bank:
                 print 'You cannot bet more than what you have in your bank'
             elif wager <= Bank.bank:
+                print Player.name, 'has wagered', '$'+str(wager)
+                Bank.bank -= wager
+                Bank.pot += wager
+                self.pot_total()
                 break
-
-        Bank.bank -= wager
-        Bank.pot += wager
 
 
 class Player(Deck, Bank):
 
-    # A player should be dealt 2 cards at random, have the ability to discard 1-2 cards, draw 1-2 cards at random
-    # Create class variable to hold the hand of the player
-    # Add class variable, Player's name
+    # A player should be dealt 2 cards at random, surrender hand
 
     hand = []
     name = ''
@@ -84,6 +81,7 @@ class Player(Deck, Bank):
         print Player.name, 'has in hand:\n -', '\n - '.join([str(x) for x in Player.hand] )
 
     def discard_hand(self):
+        # When a hand is surrendered
         Player.hand = []
 
     def draw(self):
@@ -121,10 +119,12 @@ class Game(Player):
                     break
 
             if not self.replay():
+                print 'Thank you for player Blackjack'
                 break
 
     def prompt(self):
         # Prompts the Player to Hit, Stand, or Surrender
+        # Rearrange order of conditionals when game comes together more
         while True:
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
@@ -153,8 +153,8 @@ class Game(Player):
 
 
     def replay(self):
-        return raw_input('Would you like to play again? ').lower().startswith('y')
+        return raw_input('If you like to play again, type "yes" and press enter.\n').lower().startswith('y')
 
 
-x = Bank()
-x.bet()
+x = Game()
+x.play()
