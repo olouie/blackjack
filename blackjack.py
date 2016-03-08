@@ -49,10 +49,10 @@ class Bank(object):
         pass
 
     def bank_total(self):
-        return Bank.bank
+        print Player.name, 'has', '$'+str(Bank.bank), 'in their bank'
 
     def pot_total(self):
-        return Bank.pot
+        print 'There is', '$'+Bank.pot, 'in the pot'
 
     def bet(self):
         # Fix later so Player cannot bet more than bank
@@ -111,6 +111,7 @@ class Game(Player):
                 self.player.deal()
                 self.prompt()
 
+                # If deck is less than 2 cards no more can be dealt, then game over
                 if len(self.stack) < 2:
                     break
 
@@ -123,11 +124,16 @@ class Game(Player):
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
             if reply.startswith('h'):
+
+                # Prevents player from drawing more cards from empty deck, game over
+                if len(self.stack) < 2:
+                    break
+
                 print self.player.name, 'drew a', self.player.draw()
                 # Add the comparison here to see if player busts after a Hit
                 self.show_hand()
                 self.bank.bank -= 1
-                print self.bank.bank
+
                 if self.bank.bank == 0:
                     break
             elif reply.startswith('st'):
@@ -145,5 +151,5 @@ class Game(Player):
         return raw_input('Would you like to play again? ').lower().startswith('y')
 
 
-x = Game()
-x.play()
+x = Bank()
+x.bank_total()
