@@ -72,10 +72,10 @@ class Player(Deck, Bank):
 
     def __init__(self):
         self.deck = Deck()
-        #Player.name = raw_input("Player name: ")
+        Player.name = raw_input("Player name: ")
 
     def show_hand(self):
-        print Player.name, 'has a', ' and a '.join([str(x) for x in Player.hand] )
+        print Player.name, 'has in hand:\n -', '\n - '.join([str(x) for x in Player.hand] )
 
     def discard_hand(self):
         hand = []
@@ -88,7 +88,7 @@ class Player(Deck, Bank):
 
     def deal(self):
         # Deals 2 cards to Player
-        print Player.name, 'was dealt a', self.draw(), 'and a', self.draw()
+        print Player.name, 'was dealt:\n - ', self.draw(), '\n - ', self.draw()
 
 
 class Game(Player):
@@ -120,9 +120,11 @@ class Game(Player):
 
             if reply.startswith('h'):
                 print self.player.name, 'drew a', self.player.draw()
+                # Add the comparison here to see if player busts after a Hit
                 self.show_hand()
             elif reply.startswith('st'):
                 print self.player.name, 'stands hand'
+                # This only matters when playing against Dealer
                 break
             elif reply.startswith('su'):
                 print self.player.name, 'surrendered their hand'
