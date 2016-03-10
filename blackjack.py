@@ -40,7 +40,7 @@ class Bank(object):
     # Bank will hold as Player's money and earnings
 
     bank = 100
-    pot = 0
+    betting_box = 0
 
     def __init__(self):
         #print "Bank is running"
@@ -49,8 +49,8 @@ class Bank(object):
     def bank_total(self):
         print Player.name, 'has', '$'+str(self.bank), 'in their bank'
 
-    def pot_total(self):
-        print 'There is', '$'+str(self.pot), 'in the pot'
+    def betting_box_total(self):
+        print 'There is', '$'+str(self.betting_box), 'in', Player.name+'s','betting box'
 
     def bet(self):
         while True:
@@ -62,8 +62,8 @@ class Bank(object):
                 elif wager <= Bank.bank:
                     print Player.name, 'has wagered', '$'+str(wager)
                     Bank.bank -= wager
-                    Bank.pot += wager
-                    self.pot_total()
+                    Bank.betting_box += wager
+                    self.betting_box_total()
                     break
             elif bet_question.startswith('n'):
                 break
@@ -142,11 +142,6 @@ class Game(Player):
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
             if reply.startswith('h'):
-
-                # Prevents player from drawing more cards from empty deck, game over
-                if len(self.stack) < 2:
-                    break
-
                 print self.player.name, 'drew a', self.player.draw()
                 # Add the comparison here to see if player busts after a Hit
                 self.show_hand()
