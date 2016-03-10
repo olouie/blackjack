@@ -39,7 +39,7 @@ class Bank(object):
 
     # Bank will hold as Player's money and earnings
 
-    bank = 5
+    bank = 100
     pot = 0
 
     def __init__(self):
@@ -54,14 +54,18 @@ class Bank(object):
 
     def bet(self):
         while True:
-            wager = int(raw_input("How much would you like to bet? "))
-            if wager > Bank.bank:
-                print 'You cannot bet more than what you have in your bank'
-            elif wager <= Bank.bank:
-                print Player.name, 'has wagered', '$'+str(wager)
-                Bank.bank -= wager
-                Bank.pot += wager
-                self.pot_total()
+            bet_question = raw_input("Would you like to place a bet? ").lower()
+            if bet_question.startswith('y'):
+                wager = int(raw_input("How much would you like to bet? "))
+                if wager > Bank.bank:
+                    print 'You cannot bet more than what you have in your bank'
+                elif wager <= Bank.bank:
+                    print Player.name, 'has wagered', '$'+str(wager)
+                    Bank.bank -= wager
+                    Bank.pot += wager
+                    self.pot_total()
+                    break
+            elif bet_question.startswith('n'):
                 break
 
 
@@ -139,7 +143,6 @@ class Game(Player):
                 print self.player.name, 'drew a', self.player.draw()
                 # Add the comparison here to see if player busts after a Hit
                 self.show_hand()
-                self.bank.bank -= 1
 
                 if self.bank.bank == 0:
                     break
@@ -149,6 +152,7 @@ class Game(Player):
                 # Add comparisons and then discard hand
                 break
             elif reply.startswith('su'):
+                # Player gets to withdraw wager, how the hell I'm supposed to do this ::cries::
                 print self.player.name, 'surrendered their hand'
                 self.player.discard_hand()
                 break
@@ -161,5 +165,5 @@ class Game(Player):
         self.bank = Bank()
 
 
-x = Game()
-x.play()
+x = Bank()
+x.bet()
