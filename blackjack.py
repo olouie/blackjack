@@ -73,7 +73,7 @@ class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, surrender hand
 
-    hand = []
+    hand = ['Ace of Hearts', 'Jack of Hearts']
     name = ''
 
     def __init__(self):
@@ -102,10 +102,7 @@ class Player(Deck, Bank):
 class Game(Player):
     # Game engine that handles the logic and comparisons...maybe
     # Set up for one player first, add Dealer later (contemplate a Dealer class?)
-    # If cards are 21, automatic win
-    # If cards are over 21, automatic bust
     # No splitting of hands in this game
-    # Replay? When no more can be dealt from a deck
     
     def __init__(self):
         self.player = Player()
@@ -156,6 +153,20 @@ class Game(Player):
                 self.player.discard_hand()
                 break
 
+    def win_loss(self):
+        # Will add the values in Player's hand to see if win or loss
+        # Aces have an optional value of 1 or 11
+        values = {}
+
+        for card in self.player.hand:
+            values[card] = self.stack[card]
+
+        if 11 in values.itervalues():
+            ace_prompt = raw_input("Would you like your Ace to value 1 or 11? ").lower()
+            if ace_prompt == '1':
+
+        sum(values.itervalues())
+
     def replay(self):
         return raw_input('If you like to play again, type "yes" and press enter.\n').lower().startswith('y')
 
@@ -165,4 +176,4 @@ class Game(Player):
 
 
 x = Game()
-x.prompt()
+x.win_loss()
