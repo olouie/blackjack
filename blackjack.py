@@ -11,27 +11,29 @@ class Deck(object):
             'Jack':10, 'Queen':10, 'King':10}  
     
     stack = {}
+    untouched_stack = {}
     
     for suit in suits:
         for k,v in ranks.iteritems():
             stack[k + ' of ' + suit] = v
+            untouched_stack[k + ' of ' + suit] = v
     
     def __init__(self):
         print 'Welcome to Blackjack'
 
     def deck_total(self): 
     # Displays total cards remaining
-        print "There are %d cards left in this deck" %len(Deck.stack)
+        print "There are %d cards left in this deck" %len(self.stack)
 
     def random_card(self): 
     # Chooses one card at random
-        card = random.choice(Deck.stack.keys())
+        card = random.choice(self.stack.keys())
         return card
 
     def del_card(self):
         # Deletes card chosen at random
         x = self.random_card()
-        Deck.stack.pop(x)
+        self.stack.pop(x)
         return x
 
 
@@ -73,7 +75,7 @@ class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, surrender hand
 
-    hand = ['Ace of Hearts', 'Jack of Hearts']
+    hand = []
     name = ''
 
     def __init__(self):
@@ -158,14 +160,19 @@ class Game(Player):
         # Aces have an optional value of 1 or 11
         values = {}
 
+        self.player.deal()
+
         for card in self.player.hand:
-            values[card] = self.stack[card]
+            print self.untouched_stack[card]
 
-        if 11 in values.itervalues():
-            ace_prompt = raw_input("Would you like your Ace to value 1 or 11? ").lower()
-            if ace_prompt == '1':
+        print values
 
-        sum(values.itervalues())
+        #if 11 in values.itervalues():
+         #   ace_prompt = raw_input("Would you like your Ace to value 1 or 11? ").lower()
+          #  if ace_prompt == '1':
+           #     pass
+
+        #sum(values.itervalues())
 
     def replay(self):
         return raw_input('If you like to play again, type "yes" and press enter.\n').lower().startswith('y')
@@ -173,7 +180,6 @@ class Game(Player):
     def reset(self):
         self.player = Player()
         self.bank = Bank()
-
 
 x = Game()
 x.win_loss()
