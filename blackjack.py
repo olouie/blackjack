@@ -115,12 +115,18 @@ class Game(Player):
     def play(self):
         while True:
             while self.bank.bank > 0:
-                self.player.deal()
-                self.prompt()
+                # Before a new round starts, checks bank. If bank == 0, game over           
+                if self.bank.bank == 0:
+                    print 'You have no more money left in your bank'
+                    break
 
                 # If deck is less than 2 cards no more can be dealt, then game over
                 if len(self.stack) < 2:
+                    print 'There are no more cards left in this deck'
                     break
+
+                self.player.deal()
+                self.prompt()
 
             if not self.replay():
                 print 'Thank you for playing Blackjack'
@@ -132,6 +138,7 @@ class Game(Player):
         # Prompts the Player to Hit, Stand, or Surrender
         # Rearrange order of conditionals when game comes together more
         while True:
+            self.bet()
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
             if reply.startswith('h'):
@@ -143,9 +150,6 @@ class Game(Player):
                 print self.player.name, 'drew a', self.player.draw()
                 # Add the comparison here to see if player busts after a Hit
                 self.show_hand()
-
-                if self.bank.bank == 0:
-                    break
             elif reply.startswith('st'):
                 print self.player.name, 'stands hand'
                 # This only matters when playing against Dealer
@@ -165,5 +169,5 @@ class Game(Player):
         self.bank = Bank()
 
 
-x = Bank()
-x.bet()
+x = Game()
+x.prompt()
