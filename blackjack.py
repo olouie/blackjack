@@ -73,8 +73,14 @@ class Bank(object):
                         break
                 break
 
-    def bet_win(self):
+    def bet_withdraw(self):
         Bank.bank += self.betting_box
+        self.betting_box = 0
+        print Player.name, 'withdraws their wager'
+
+
+    def bet_win(self):
+        Bank.bank += self.betting_box # + Dealer betting_box
         self.betting_box = 0
         self.betting_box_total()
 
@@ -117,7 +123,6 @@ class Game(Player):
     def __init__(self):
         self.player = Player()
         self.bank = Bank()
-        #print "Game engine running"
 
     def play(self):
         while True:
@@ -151,6 +156,9 @@ class Game(Player):
                 print 'All wagers go to', self.player.name
                 self.bet_win()
                 break
+            elif self.win_loss() == False:
+                print 'All wagers go to Dealer'
+
 
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
@@ -166,12 +174,14 @@ class Game(Player):
             elif reply.startswith('su'):
                 # Player gets to withdraw wager, how the hell I'm supposed to do this ::cries::
                 print self.player.name, 'surrendered their hand'
+                self.bet_withdraw()
                 self.player.discard_hand()
                 break
 
     def win_loss(self):
         # Will add the values in Player's hand to see if win or loss
         # Aces have an optional value of 1 or 11
+        # Have not incorporated the situation of multiple aces
         card_values = {}
 
         for card in self.player.hand:
