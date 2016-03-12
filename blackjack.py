@@ -78,12 +78,13 @@ class Bank(object):
         self.betting_box = 0
         print Player.name, 'withdraws their wager'
 
-
     def bet_win(self):
+        # Fix this so it's Player specfic so winnings go to correct Player
         Bank.bank += self.betting_box # + Dealer betting_box
         self.betting_box = 0
-        self.betting_box_total()
 
+    def bet_lose(self):
+        self.betting_box = 0
 
 class Player(Deck, Bank):
 
@@ -94,6 +95,7 @@ class Player(Deck, Bank):
 
     def __init__(self):
         self.deck = Deck()
+        self.bank = Bank()
         #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
@@ -115,20 +117,23 @@ class Player(Deck, Bank):
         print Player.name, 'was dealt:\n - ', self.draw(), '\n - ', self.draw()
 
 
-class Game(Player):
+class Dealer(Player):
+    pass
+
+
+class Game(Player, Dealer):
     # Game engine that handles the logic and comparisons...maybe
     # Set up for one player first, add Dealer later (contemplate a Dealer class?)
     # No splitting of hands in this game
     
     def __init__(self):
         self.player = Player()
-        self.bank = Bank()
 
     def play(self):
         while True:
-            while self.bank.bank > 0:
+            while self.bank > 0:
                 # Before a new round starts, checks bank. If bank == 0, game over           
-                if self.bank.bank == 0:
+                if self.bank == 0:
                     print 'You have no more money left in your bank\nGame Over'
                     break
 
@@ -138,7 +143,9 @@ class Game(Player):
                     break
 
                 #self.player.deal()
-                self.prompt()
+                #self.prompt()
+                print self.player.stack
+                break
 
             if not self.replay():
                 print 'Thank you for playing Blackjack'
@@ -158,6 +165,8 @@ class Game(Player):
                 break
             elif self.win_loss() == False:
                 print 'All wagers go to Dealer'
+                # Betting boxes go to dealer
+                break
 
 
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
@@ -205,7 +214,6 @@ class Game(Player):
 
     def reset(self):
         self.player = Player()
-        self.bank = Bank()
 
 x = Game()
-x.bet()
+x.play()
