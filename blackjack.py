@@ -55,21 +55,23 @@ class Bank(object):
         print 'There is', '$'+str(self.betting_box), 'in', Player.name+'s','betting box'
 
     def bet(self):
+        self.bank_total()
         while True:
-            self.bank_total()
             try:
                 wager = int(raw_input("How much would you like to bet? "))
             except:
-                print 'Enter an integer'
+                print 'Please enter an integer'
             else:
-                if wager > self.bank:
-                    print 'You cannot bet more than what you have in your bank'
-                elif wager <= self.bank:
-                    print Player.name, 'has wagered', '$'+str(wager)
-                    Bank.bank -= wager
-                    self.betting_box += wager
-                    self.betting_box_total()
-                    break
+                while True:
+                    if wager > self.bank:
+                        print 'You cannot bet more than what you have in your bank'
+                    elif wager <= self.bank:
+                        print Player.name, 'has wagered', '$'+str(wager)
+                        Bank.bank -= wager
+                        self.betting_box += wager
+                        self.betting_box_total()
+                        break
+                break
 
     def bet_win(self):
         Bank.bank += self.betting_box
