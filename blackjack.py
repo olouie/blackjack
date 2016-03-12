@@ -49,26 +49,32 @@ class Bank(object):
         pass
 
     def bank_total(self):
-        print Player.name, 'has', '$'+str(self.bank), 'in their bank'
+        print Player.name, 'has', '$'+str(Bank.bank), 'in their bank'
 
     def betting_box_total(self):
         print 'There is', '$'+str(self.betting_box), 'in', Player.name+'s','betting box'
 
     def bet(self):
         while True:
-            bet_question = raw_input("Would you like to place a bet? ").lower()
-            if bet_question.startswith('y'):
+            self.bank_total()
+            try:
                 wager = int(raw_input("How much would you like to bet? "))
-                if wager > Bank.bank:
+            except:
+                print 'Enter an integer'
+            else:
+                if wager > self.bank:
                     print 'You cannot bet more than what you have in your bank'
-                elif wager <= Bank.bank:
+                elif wager <= self.bank:
                     print Player.name, 'has wagered', '$'+str(wager)
                     Bank.bank -= wager
-                    Bank.betting_box += wager
+                    self.betting_box += wager
                     self.betting_box_total()
                     break
-            elif bet_question.startswith('n'):
-                break
+
+    def bet_win(self):
+        Bank.bank += self.betting_box
+        self.betting_box = 0
+        self.betting_box_total()
 
 
 class Player(Deck, Bank):
@@ -116,12 +122,12 @@ class Game(Player):
             while self.bank.bank > 0:
                 # Before a new round starts, checks bank. If bank == 0, game over           
                 if self.bank.bank == 0:
-                    print 'You have no more money left in your bank'
+                    print 'You have no more money left in your bank\nGame Over'
                     break
 
                 # If deck is less than 2 cards no more can be dealt, then game over
                 if len(self.stack) < 2:
-                    print 'There are no more cards left in this deck'
+                    print 'There are no more cards left in this deck\nGame Over'
                     break
 
                 #self.player.deal()
@@ -140,7 +146,8 @@ class Game(Player):
             self.bet()
 
             if self.win_loss() == True:
-                print 'This hand wins'
+                print 'All wagers go to', self.player.name
+                self.bet_win()
                 break
 
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
@@ -189,4 +196,4 @@ class Game(Player):
         self.bank = Bank()
 
 x = Game()
-x.play()
+x.bet()
