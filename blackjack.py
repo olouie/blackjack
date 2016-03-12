@@ -124,7 +124,7 @@ class Game(Player):
                     print 'There are no more cards left in this deck'
                     break
 
-                self.player.deal()
+                #self.player.deal()
                 self.prompt()
 
             if not self.replay():
@@ -138,6 +138,11 @@ class Game(Player):
         # Rearrange order of conditionals when game comes together more
         while True:
             self.bet()
+
+            if self.win_loss() == True:
+                print 'This hand wins'
+                break
+
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
             if reply.startswith('h'):
@@ -167,12 +172,14 @@ class Game(Player):
             ace_prompt = raw_input("Would you like your Ace to value 1? ").lower()
             if ace_prompt.startswith('y'):
                 card_values[card_values.keys()[card_values.values().index(11)]] = 1
-
                 print self.player.name+'s', 'Ace now equals 1'
 
-        #sum(values.itervalues())
-
-        print card_values
+        if sum(card_values.itervalues()) == 21:
+            print self.player.name+'s', 'hand equals 21\n', self.player.name, 'wins this round'
+            return True
+        elif sum(card_values.itervalues()) > 21:
+            print self.player.name+'s', 'hand is over 21\n', self.player.name, 'loses this round'
+            return False
 
     def replay(self):
         return raw_input('If you like to play again, type "yes" and press enter.\n').lower().startswith('y')
@@ -182,4 +189,4 @@ class Game(Player):
         self.bank = Bank()
 
 x = Game()
-x.win_loss()
+x.play()
