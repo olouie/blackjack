@@ -75,7 +75,7 @@ class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, surrender hand
 
-    hand = []
+    hand = ['Ace of Hearts', 'Jack of Hearts']
     name = ''
 
     def __init__(self):
@@ -158,21 +158,21 @@ class Game(Player):
     def win_loss(self):
         # Will add the values in Player's hand to see if win or loss
         # Aces have an optional value of 1 or 11
-        values = {}
-
-        self.player.deal()
+        card_values = {}
 
         for card in self.player.hand:
-            print self.untouched_stack[card]
+            card_values[card] = self.untouched_stack[card]
 
-        print values
+        if 11 in card_values.itervalues():
+            ace_prompt = raw_input("Would you like your Ace to value 1? ").lower()
+            if ace_prompt.startswith('y'):
+                card_values[card_values.keys()[card_values.values().index(11)]] = 1
 
-        #if 11 in values.itervalues():
-         #   ace_prompt = raw_input("Would you like your Ace to value 1 or 11? ").lower()
-          #  if ace_prompt == '1':
-           #     pass
+                print self.player.name+'s', 'Ace now equals 1'
 
         #sum(values.itervalues())
+
+        print card_values
 
     def replay(self):
         return raw_input('If you like to play again, type "yes" and press enter.\n').lower().startswith('y')
