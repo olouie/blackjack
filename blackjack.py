@@ -19,8 +19,8 @@ class Deck(object):
             untouched_stack[k + ' of ' + suit] = v
     
     def __init__(self):
-        #print 'Welcome to Blackjack'
-        pass
+        hand = []
+        dealer_hand = []
 
     def deck_total(self): 
     # Displays total cards remaining
@@ -42,15 +42,12 @@ class Bank(object):
 
     # Bank will hold as Player's money and earnings
 
-    player_bank = 100
-    player_betting_box = 0
-
-    dealer_bank = 50
-    dealer_betting_box = 0
-
     def __init__(self):
-        #print "Bank is running"
-        pass
+        player_bank = 100
+        player_betting_box = 0
+
+        dealer_bank = 100
+        dealer_betting_box = 0
 
     def bank_total(self, name, bank):
         print name, 'has', '$'+str(bank), 'in their bank'
@@ -93,20 +90,15 @@ class Bank(object):
         # Set box to the the betting box of the loser
         box = 0
 
-class Player(Deck, Bank):
+class Player(object):
 
     # A player should be dealt 2 cards at random, surrender hand
 
     # Move this class variables into the __init__()
-    hand = []
-    name = 'Jack'
-
-    dealer_hand = []
-    dealer = 'Dealer'
 
     def __init__(self):
-        self.deck = Deck()
-        self.bank = Bank()
+        name = 'Jack'
+        dealer = 'Dealer'
         #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
@@ -128,13 +120,21 @@ class Player(Deck, Bank):
         print Player.name, 'was dealt:\n - ', self.draw(), '\n - ', self.draw()
 
 
-class Game(Player):
+class Dealer(Player):
+    pass
+
+
+class Game(object):
     # Game engine that handles the logic and comparisons...maybe
     # Set up for one player first, add Dealer later (contemplate a Dealer class?)
     # No splitting of hands in this game
     
-    def __init__(self):
-        self.player = Player()
+    def __init__(self,):
+        deck = Deck()
+        bank = Bank()
+        player = Player()
+        dealer = Dealer()
+
 
     def play(self):
         while True:
@@ -221,5 +221,6 @@ class Game(Player):
     def reset(self):
         self.player = Player()
 
-x = Player()
-x.bet()
+# Do not need inheritence to use methods within class
+# Create Dealer class
+
