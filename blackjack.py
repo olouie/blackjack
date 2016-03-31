@@ -19,7 +19,8 @@ class Deck(object):
             untouched_stack[k + ' of ' + suit] = v
     
     def __init__(self):
-        print 'Welcome to Blackjack'
+        #print 'Welcome to Blackjack'
+        pass
 
     def deck_total(self): 
     # Displays total cards remaining
@@ -41,21 +42,25 @@ class Bank(object):
 
     # Bank will hold as Player's money and earnings
 
-    bank = 100
-    betting_box = 0
+    player_bank = 100
+    player_betting_box = 0
+
+    dealer_bank = 50
+    dealer_betting_box = 0
 
     def __init__(self):
         #print "Bank is running"
         pass
 
-    def bank_total(self):
-        print Player.name, 'has', '$'+str(Bank.bank), 'in their bank'
+    def bank_total(self, name, bank):
+        print name, 'has', '$'+str(bank), 'in their bank'
 
-    def betting_box_total(self):
-        print 'There is', '$'+str(self.betting_box), 'in', Player.name+'s','betting box'
+    def betting_box_total(self, name, box):
+        print 'There is', '$'+str(box), 'in', name+'\'s','betting box'
 
     def bet(self):
-        self.bank_total()
+        # This method will not apply to Dealer, will get own bet for logic stuff
+        self.bank_total(Player.name, Bank.player_bank)
         while True:
             try:
                 wager = int(raw_input("How much would you like to bet? "))
@@ -67,31 +72,37 @@ class Bank(object):
                         print 'You cannot bet more than what you have in your bank'
                     elif wager <= self.bank:
                         print Player.name, 'has wagered', '$'+str(wager)
-                        Bank.bank -= wager
-                        self.betting_box += wager
-                        self.betting_box_total()
+                        Bank.player_bank -= wager
+                        Bank.player_betting_box += wager
+                        self.betting_box_total(Player.name, Bank.player_bank)
                         break
                 break
 
     def bet_withdraw(self):
+        # Dealer does not get to withdraw bet
         Bank.bank += self.betting_box
         self.betting_box = 0
         print Player.name, 'withdraws their wager'
 
-    def bet_win(self):
+    def bet_win(self, winner, winner_bank, winner_box):
         # Fix this so it's Player specfic so winnings go to correct Player
-        Bank.bank += self.betting_box # + Dealer betting_box
-        self.betting_box = 0
+        winner_bank += Bank.player_betting_box +  Bank.dealer_betting_box
+        winner_box = 0
 
-    def bet_lose(self):
-        self.betting_box = 0
+    def bet_lose(self, box):
+        # Set box to the the betting box of the loser
+        box = 0
 
 class Player(Deck, Bank):
 
     # A player should be dealt 2 cards at random, surrender hand
 
-    hand = ['Ace of Hearts', 'Jack of Hearts']
-    name = ''
+    # Move this class variables into the __init__()
+    hand = []
+    name = 'Jack'
+
+    dealer_hand = []
+    dealer = 'Dealer'
 
     def __init__(self):
         self.deck = Deck()
@@ -117,11 +128,7 @@ class Player(Deck, Bank):
         print Player.name, 'was dealt:\n - ', self.draw(), '\n - ', self.draw()
 
 
-class Dealer(Player):
-    pass
-
-
-class Game(Player, Dealer):
+class Game(Player):
     # Game engine that handles the logic and comparisons...maybe
     # Set up for one player first, add Dealer later (contemplate a Dealer class?)
     # No splitting of hands in this game
@@ -167,7 +174,6 @@ class Game(Player, Dealer):
                 print 'All wagers go to Dealer'
                 # Betting boxes go to dealer
                 break
-
 
             reply = raw_input("Would you like to: Hit, Stand, or Surrender\n").lower()
 
@@ -215,5 +221,5 @@ class Game(Player, Dealer):
     def reset(self):
         self.player = Player()
 
-x = Game()
-x.play()
+x = Player()
+x.bet()
