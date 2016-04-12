@@ -3,24 +3,24 @@ import random
 #os.system('clear')
 
 class Deck(object):
+
+    def __init__(self):
     
     # A deck needs 52 cards, consisting of 13 ranks of 4 different suits
      
-    suits = ('Hearts', 'Spades', 'Diamonds', 'Clubs')
-    ranks = {'Ace':11, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 
-            'Jack':10, 'Queen':10, 'King':10}  
-    
-    stack = {}
-    untouched_stack = {}
-    
-    for suit in suits:
-        for k,v in ranks.iteritems():
-            stack[k + ' of ' + suit] = v
-            untouched_stack[k + ' of ' + suit] = v
-    
-    def __init__(self):
-        hand = []
-        dealer_hand = []
+        suits = ('Hearts', 'Spades', 'Diamonds', 'Clubs')
+        ranks = {'Ace':11, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 
+                'Jack':10, 'Queen':10, 'King':10}  
+        
+        self.stack = {}
+        untouched_stack = {}
+        
+        for suit in suits:
+            for k,v in ranks.iteritems():
+                self.stack[k + ' of ' + suit] = v
+                untouched_stack[k + ' of ' + suit] = v
+        
+
 
     def deck_total(self): 
     # Displays total cards remaining
@@ -43,11 +43,8 @@ class Bank(object):
     # Bank will hold as Player's money and earnings
 
     def __init__(self):
-        player_bank = 100
-        player_betting_box = 0
-
-        dealer_bank = 100
-        dealer_betting_box = 0
+        bank = 100
+        betting_box = 0
 
     def bank_total(self, name, bank):
         print name, 'has', '$'+str(bank), 'in their bank'
@@ -94,8 +91,6 @@ class Player(object):
 
     # A player should be dealt 2 cards at random, surrender hand
 
-    # Move this class variables into the __init__()
-
     def __init__(self):
         name = 'Jack'
         dealer = 'Dealer'
@@ -129,7 +124,7 @@ class Game(object):
     # Set up for one player first, add Dealer later (contemplate a Dealer class?)
     # No splitting of hands in this game
     
-    def __init__(self,):
+    def __init__(self, deck, bank, player, dealer):
         deck = Deck()
         bank = Bank()
         player = Player()
@@ -223,4 +218,8 @@ class Game(object):
 
 # Do not need inheritence to use methods within class
 # Create Dealer class
+# Run test and check to see can use methods of other classes in different classes
+
+test = Deck()
+test.deck_total()
 
