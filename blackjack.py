@@ -90,31 +90,34 @@ class Player(object):
     # A player should be dealt 2 cards at random, surrender hand
 
     def __init__(self):
+        self.deck = Deck()
         self.name = 'Jack'
-        self.dealer = 'Dealer'
+        self.hand = []
         #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
-        Player.hand.sort()
-        print Player.name, 'has in hand:\n -', '\n - '.join([str(x) for x in Player.hand] )
+        self.hand.sort()
+        print self.name, 'has in hand:\n -', '\n - '.join([str(x) for x in self.hand] )
 
     def discard_hand(self):
         # When a hand is surrendered
-        Player.hand = []
+        self.hand = []
 
     def draw(self):
         # Adds a randomly chosen card to Player's hand
         drawn = self.deck.del_card()
-        Player.hand.append(drawn)
+        self.hand.append(drawn)
         return drawn
 
     def deal(self):
         # Deals 2 cards to Player
-        print Player.name, 'was dealt:\n - ', self.draw(), '\n - ', self.draw()
+        print self.name, 'was dealt:\n - ', self.draw(), '\n - ', self.draw()
 
 
 class Dealer(Player):
-    pass
+
+    def __init__(self):
+        self.name = 'Dealer'
 
 
 class Game(object):
@@ -123,7 +126,6 @@ class Game(object):
     # No splitting of hands in this game
     
     def __init__(self):
-        self.deck = Deck()
         self.bank = Bank()
         self.player = Player()
         self.dealer = Dealer()
@@ -221,7 +223,8 @@ class Game(object):
 # Create Dealer class
 # Run test and check to see can use methods of other classes in different classes
 
-test = Game()
-test.total()
+test = Player()
+test.draw()
+test.show_hand()
 
 
