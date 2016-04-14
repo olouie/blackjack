@@ -13,7 +13,7 @@ class Deck(object):
                 'Jack':10, 'Queen':10, 'King':10}  
         
         self.stack = {}
-        untouched_stack = {}
+        self.untouched_stack = {}
         
         for suit in suits:
             for k,v in ranks.iteritems():
@@ -77,6 +77,7 @@ class Bank(object):
         print name, 'withdraws their wager'
 
     #def bet_win(self, winner, winner_bank, winner_box):
+        # Maybe move this into Game()
         # Fix this so it's Player specfic so winnings go to correct Player
         #winner_bank += Bank.player_betting_box +  Bank.dealer_betting_box
         #winner_box = 0
@@ -90,8 +91,8 @@ class Player(object):
     # A player should be dealt 2 cards at random, surrender hand
 
     def __init__(self):
-        self.deck = Deck()
         self.name = 'Jack'
+        self.bank = Bank()
         self.hand = []
         #Player.name = raw_input("Player name: ")
 
@@ -103,11 +104,16 @@ class Player(object):
         # When a hand is surrendered
         self.hand = []
 
-    def draw(self):
+    def draw(self, card):
         # Adds a randomly chosen card to Player's hand
-        drawn = self.deck.del_card()
+        drawn = card
         self.hand.append(drawn)
         return drawn
+
+        # Example from python study group
+        #if player.wants_cards():
+            #card = dack.draw()
+            #player.add_cad(card)
 
     def deal(self):
         # Deals 2 cards to Player
@@ -126,13 +132,9 @@ class Game(object):
     # No splitting of hands in this game
     
     def __init__(self):
-        self.bank = Bank()
+        self.deck = Deck()
         self.player = Player()
         self.dealer = Dealer()
-
-    def total(self):
-        self.bank.betting_box_total(self.player.name)
-
 
     def play(self):
         while True:
@@ -190,6 +192,10 @@ class Game(object):
                 self.bet_withdraw()
                 self.player.discard_hand()
                 break
+
+    def dealer_play():
+        # This is where the Dealer logic will run
+        pass
 
     def win_loss(self):
         # Will add the values in Player's hand to see if win or loss
