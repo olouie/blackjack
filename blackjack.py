@@ -50,9 +50,9 @@ class Bank(object):
     def betting_box_total(self, name):
         print 'There is', '$'+str(self.betting_box), 'in', name+'\'s','betting box'
 
-    def bet(self):
+    def bet(self, name):
         # This method will not apply to Dealer, will get own bet for logic stuff
-        self.bank_total(Player.name, Bank.player_bank)
+        self.bank_total(name)
         while True:
             try:
                 wager = int(raw_input("How much would you like to bet? "))
@@ -63,27 +63,27 @@ class Bank(object):
                     if wager > self.bank:
                         print 'You cannot bet more than what you have in your bank'
                     elif wager <= self.bank:
-                        print Player.name, 'has wagered', '$'+str(wager)
-                        Bank.player_bank -= wager
-                        Bank.player_betting_box += wager
-                        self.betting_box_total(Player.name, Bank.player_bank)
+                        print name, 'has wagered', '$'+str(wager)
+                        self.bank -= wager
+                        self.betting_box += wager
+                        self.betting_box_total(name)
                         break
                 break
 
-    def bet_withdraw(self):
+    def bet_withdraw(self, name):
         # Dealer does not get to withdraw bet
-        Bank.bank += self.betting_box
+        self.bank += self.betting_box
         self.betting_box = 0
-        print Player.name, 'withdraws their wager'
+        print name, 'withdraws their wager'
 
-    def bet_win(self, winner, winner_bank, winner_box):
+    #def bet_win(self, winner, winner_bank, winner_box):
         # Fix this so it's Player specfic so winnings go to correct Player
-        winner_bank += Bank.player_betting_box +  Bank.dealer_betting_box
-        winner_box = 0
+        #winner_bank += Bank.player_betting_box +  Bank.dealer_betting_box
+        #winner_box = 0
 
-    def bet_lose(self, box):
+    def bet_lose(self):
         # Set box to the the betting box of the loser
-        box = 0
+        self.bettering_box = 0
 
 class Player(object):
 
@@ -129,7 +129,7 @@ class Game(object):
         self.dealer = Dealer()
 
     def total(self):
-        self.bank.bank_total(self.player.name)
+        self.bank.betting_box_total(self.player.name)
 
 
     def play(self):
