@@ -19,8 +19,6 @@ class Deck(object):
             for k,v in ranks.iteritems():
                 self.stack[k + ' of ' + suit] = v
                 untouched_stack[k + ' of ' + suit] = v
-        
-
 
     def deck_total(self): 
     # Displays total cards remaining
@@ -43,14 +41,14 @@ class Bank(object):
     # Bank will hold as Player's money and earnings
 
     def __init__(self):
-        bank = 100
-        betting_box = 0
+        self.bank = 100
+        self.betting_box = 0
 
-    def bank_total(self, name, bank):
-        print name, 'has', '$'+str(bank), 'in their bank'
+    def bank_total(self, name):
+        print name, 'has', '$'+str(self.bank), 'in their bank'
 
-    def betting_box_total(self, name, box):
-        print 'There is', '$'+str(box), 'in', name+'\'s','betting box'
+    def betting_box_total(self, name):
+        print 'There is', '$'+str(self.betting_box), 'in', name+'\'s','betting box'
 
     def bet(self):
         # This method will not apply to Dealer, will get own bet for logic stuff
@@ -92,8 +90,8 @@ class Player(object):
     # A player should be dealt 2 cards at random, surrender hand
 
     def __init__(self):
-        name = 'Jack'
-        dealer = 'Dealer'
+        self.name = 'Jack'
+        self.dealer = 'Dealer'
         #Player.name = raw_input("Player name: ")
 
     def show_hand(self):
@@ -124,11 +122,14 @@ class Game(object):
     # Set up for one player first, add Dealer later (contemplate a Dealer class?)
     # No splitting of hands in this game
     
-    def __init__(self, deck, bank, player, dealer):
-        deck = Deck()
-        bank = Bank()
-        player = Player()
-        dealer = Dealer()
+    def __init__(self):
+        self.deck = Deck()
+        self.bank = Bank()
+        self.player = Player()
+        self.dealer = Dealer()
+
+    def total(self):
+        self.bank.bank_total(self.player.name)
 
 
     def play(self):
@@ -220,6 +221,7 @@ class Game(object):
 # Create Dealer class
 # Run test and check to see can use methods of other classes in different classes
 
-test = Deck()
-test.deck_total()
+test = Game()
+test.total()
+
 
